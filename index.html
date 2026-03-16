@@ -4,237 +4,1101 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shine Park | Mechanical Engineer</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #1a1a24;
+      --border: #2a2a3a;
+      --accent: #5b8fff;
+      --accent2: #ff6b35;
+      --text: #e8e8f0;
+      --text-muted: #7a7a9a;
+      --text-dim: #4a4a6a;
+      --mono: 'Space Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(91,143,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-text { max-width: 540px; }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--mono);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 span { color: var(--accent); }
+
+    .hero-bio {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.75rem;
+      border: 1px solid;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding-left: 4rem;
+      border-left: 1px solid var(--border);
+      margin-left: 2rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .stat-number {
+      font-family: var(--mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ── SECTION BASE ── */
+    section {
+      padding: 6rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-full {
+      max-width: none;
+      padding: 6rem 4rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    h2 {
+      font-family: var(--mono);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+    }
+
+    .project-card {
+      background: var(--surface);
+      padding: 2.5rem;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card:hover { background: var(--surface2); }
+
+    .project-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .project-number {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 1.25rem;
+    }
+
+    .project-title {
+      font-family: var(--mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .project-desc {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      transition: all 0.2s;
+    }
+
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .project-link {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .project-link::after { content: '→'; }
+    .project-link:hover { gap: 0.75rem; }
+
+    /* ── PROJECT IMAGES ── */
+    .project-images {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .project-images img,
+    .project-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid var(--border);
+      filter: saturate(0.9);
+      transition: filter 0.3s;
+    }
+
+    .project-images img:hover,
+    .project-img:hover { filter: saturate(1.1); }
+
+    .img-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .exp-item {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .exp-item:first-child { border-top: 1px solid var(--border); }
+
+    .exp-meta { padding-top: 0.15rem; }
+
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .exp-org {
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--accent);
+    }
+
+    .exp-title {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-location {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+    }
+
+    .exp-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .exp-bullets li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--text-dim);
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .skill-group {
+      background: var(--surface);
+      padding: 2rem;
+    }
+
+    .skill-group-label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .skill-list li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .skill-list li::before {
+      content: '';
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── EDUCATION ── */
+    .edu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5px;
+      background: var(--border);
+      margin-bottom: 4rem;
+    }
+
+    .edu-card {
+      background: var(--surface);
+      padding: 2.5rem;
+    }
+
+    .edu-school {
+      font-family: var(--mono);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+
+    .edu-detail {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.2rem;
+    }
+
+    .edu-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 0.75rem;
+    }
+
+    /* ── COURSES ── */
+    .courses-section { margin-top: 3rem; }
+
+    .courses-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 0.5rem;
+    }
+
+    .course-item {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      padding: 0.5rem 0.75rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .course-item:hover {
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 6rem 4rem;
+      text-align: center;
+    }
+
+    .contact-section h2 {
+      margin-bottom: 1rem;
+    }
+
+    .contact-sub {
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      font-size: 1rem;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-link {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer span {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    /* ── FADE IN ANIMATION ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text > * {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .hero-label { animation-delay: 0.1s; }
+    h1 { animation-delay: 0.2s; }
+    .hero-bio { animation-delay: 0.3s; }
+    .hero-cta { animation-delay: 0.4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .hero-stats { flex-direction: row; border-left: none; border-top: 1px solid var(--border); padding: 2rem 0 0; margin: 2rem 0 0; }
+      section { padding: 4rem 1.5rem; }
+      .section-full { padding: 4rem 1.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 0.75rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .edu-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .contact-section { padding: 4rem 1.5rem; }
+    }
+  </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
-  <!-- Header -->
-  <header class="bg-gray-800 p-6 shadow-md">
-    <div class="max-w-6xl mx-auto flex justify-between items-center">
-      <h1 class="text-2xl font-bold">Shine Park</h1>
-      <nav class="space-x-4">
-        <a href="#education" class="hover:underline">Education</a>
-        <a href="#projects" class="hover:underline">Projects</a>
-        <a href="#experience" class="hover:underline">Experience</a>
-        <a href="#resume" class="hover:underline">Resume</a>
-        <a href="#contact" class="hover:underline">Contact</a>
-      </nav>
-    </div>
-  </header>
+<body>
 
-  <!-- Hero -->
-  <section class="py-20 text-center">
-    <h2 class="text-4xl font-bold mb-4">Mechanical Engineer | Robotics</h2>
-    <p class="text-gray-300 text-lg max-w-xl mx-auto">
-      I'm a 4th year student at The George Washington University pursuing a Bachelor of Science Degree in Mechanical Engineering with a concentration in Robotics. My engineering journey started young from transforming Lego bricks into imaginative creations and designing functional roller coaster systems with a maker's kit. That hands-on curiosity evolved into something more focused when I joined the Marlbots, my high school's FIRST Robotics team, where I discovered the power of collaborative problem-solving and technical design. Now, as I approach graduation, I'm eager to channel my skills and passion into automotive engineering and drone flight systems, fields where cutting-edge technology meets real-world impact. I'm particularly excited about the intersection of autonomous systems, propulsion design, and the future of mobility.
-Whether it's optimizing mechanical systems or tackling complex engineering challenges, I'm always looking for opportunities to learn, build, and contribute to innovative projects that push boundaries.
-    </p>
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">SP — 2026</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-label">Mechanical Engineer</div>
+      <h1>Shine<br><span>Park</span></h1>
+      <p class="hero-bio">
+        4th year BS Mechanical Engineering student at GWU with a concentration in Robotics. Building autonomous drones, robotic dogs, and mechatronic systems. Passionate about UAVs, autonomous navigation, and the future of mobility.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="./Shine_Park_Resume2025.pdf" class="btn btn-ghost" target="_blank">Resume ↗</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-number">3.11</span>
+        <span class="stat-label">GPA · GWU</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">6+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number">'26</span>
+        <span class="stat-label">Graduating May</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-tag">01 / Work</span>
+      <h2>Projects</h2>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- CAPSTONE DRONE -->
+      <div class="project-card featured">
+        <div class="project-info">
+          <div class="project-number">001 · Capstone</div>
+          <div class="project-title">Falckon Aerial — Autonomous Agricultural Drone Swarm</div>
+          <p class="project-desc">
+            Designing and building two agricultural drones from scratch that autonomously navigate a field without collision. Architected a distributed swarm coordination system using mesh networking and consensus-based control, integrating CubePilot Orange autopilot with GPS/IMU sensors and Mission Planner for 3D environment mapping and stable flight.
+          </p>
+          <div class="tag-row">
+            <span class="tag">CubePilot Orange</span>
+            <span class="tag">Mission Planner</span>
+            <span class="tag">ArduPilot</span>
+            <span class="tag">BLDC Motors</span>
+            <span class="tag">Carbon Fiber</span>
+            <span class="tag">Swarm Control</span>
+            <span class="tag">CAD</span>
+          </div>
+          <a href="https://github.com/shinepark/drone_capstone" class="project-link" target="_blank">View Repository</a>
+        </div>
+        <div>
+          <div style="background:var(--surface2); border:1px solid var(--border); padding:2rem; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1rem;">
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); text-align:center;">Swarm Architecture Concept</div>
+            <svg viewBox="0 0 280 180" style="width:100%; max-width:280px;" xmlns="http://www.w3.org/2000/svg">
+              <!-- field -->
+              <rect x="20" y="30" width="240" height="130" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+              <!-- drone 1 path -->
+              <polyline points="40,50 240,50 240,90 40,90 40,130 240,130" fill="none" stroke="#5b8fff" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+              <!-- drone 2 path -->
+              <polyline points="240,70 40,70 40,110 240,110 240,150 40,150" fill="none" stroke="#ff6b35" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+              <!-- drone 1 icon -->
+              <g transform="translate(80,50)">
+                <circle r="6" fill="#5b8fff" opacity="0.9"/>
+                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="#5b8fff" stroke-width="1.5"/>
+                <line x1="9" y1="-9" x2="5" y2="-5" stroke="#5b8fff" stroke-width="1.5"/>
+                <line x1="-9" y1="9" x2="-5" y2="5" stroke="#5b8fff" stroke-width="1.5"/>
+                <line x1="9" y1="9" x2="5" y2="5" stroke="#5b8fff" stroke-width="1.5"/>
+              </g>
+              <!-- drone 2 icon -->
+              <g transform="translate(200,110)">
+                <circle r="6" fill="#ff6b35" opacity="0.9"/>
+                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="#ff6b35" stroke-width="1.5"/>
+                <line x1="9" y1="-9" x2="5" y2="-5" stroke="#ff6b35" stroke-width="1.5"/>
+                <line x1="-9" y1="9" x2="-5" y2="5" stroke="#ff6b35" stroke-width="1.5"/>
+                <line x1="9" y1="9" x2="5" y2="5" stroke="#ff6b35" stroke-width="1.5"/>
+              </g>
+              <!-- mesh link -->
+              <line x1="80" y1="50" x2="200" y2="110" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="2,3"/>
+              <!-- labels -->
+              <text x="60" y="44" font-family="Space Mono" font-size="7" fill="#5b8fff">UAV-01</text>
+              <text x="180" y="104" font-family="Space Mono" font-size="7" fill="#ff6b35">UAV-02</text>
+              <text x="140" y="22" font-family="Space Mono" font-size="6" fill="#4a4a6a" text-anchor="middle">FIELD COVERAGE PATTERN</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- MINI PUPPER -->
+      <div class="project-card">
+        <div class="project-number">002 · Robotics</div>
+        <div class="project-title">Mini Pupper 2 — Autonomous Search Dog</div>
+        <p class="project-desc">
+          Transforming a Mini Pupper 2 quadruped robot into a search-and-rescue scout. Equipped with LiDAR for environment sensing, the robot navigates dimly lit rooms autonomously to locate objects — combining SLAM navigation, low-light perception, and legged locomotion control.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Mini Pupper 2</span>
+          <span class="tag">LiDAR</span>
+          <span class="tag">SLAM</span>
+          <span class="tag">ROS</span>
+          <span class="tag">Autonomous Nav</span>
+        </div>
+      </div>
+
+      <!-- TEAM OF TEAMS -->
+      <div class="project-card">
+        <div class="project-number">003 · Mechatronics</div>
+        <div class="project-title">Team of Teams — Golf Ball Transfer System</div>
+        <p class="project-desc">
+          One of 8 teams (4 members each) tasked with building a subsystem to autonomously move a golf ball through 40 linked mechanisms — 5 seconds per handoff — in a continuous loop. Designed and fabricated the mechanism using SolidWorks CAD, performed FEA, and coded the Arduino control logic.
+        </p>
+        <div class="tag-row">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">FEA</span>
+          <span class="tag">Arduino</span>
+          <span class="tag">Laser Cutting</span>
+          <span class="tag">3D Printing</span>
+        </div>
+        <div class="project-images" style="margin-top:1.5rem;">
+          <div class="img-grid-2">
+            <img src="fea_analysis.png" alt="FEA stress analysis on gear system showing Von Mises stress distribution" />
+            <img src="overall_team_of_teams.png" alt="Assembled team of teams golf ball mechanism" />
+          </div>
+          <img src="team_of_teams.png" alt="CAD drawing of Shine's module for the team of teams project" />
+        </div>
+      </div>
+
+      <!-- FISHING REEL RE -->
+      <div class="project-card">
+        <div class="project-number">004 · Reverse Engineering</div>
+        <div class="project-title">Piscifun Chaos XS 40 — Reverse Engineering</div>
+        <p class="project-desc">
+          Full teardown and reverse engineering of a professional fishing reel. Analyzed design intent, customer needs, and performance characteristics. Developed complete CAD models, ran FEA, and proposed targeted engineering improvements.
+        </p>
+        <div class="tag-row">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">FEA</span>
+          <span class="tag">Product Teardown</span>
+          <span class="tag">DFM</span>
+        </div>
+      </div>
+
+      <!-- PROJECT BIRD -->
+      <div class="project-card">
+        <div class="project-number">005 · Mechanical Design</div>
+        <div class="project-title">Project BIRD — Mechanical Flapping Bird</div>
+        <p class="project-desc">
+          Fully mechanical bird with functional flapping wings and a rotating head. Powered by a crank-driven gear system, designed in SolidWorks, and fabricated using laser cutting, 3D printing, and milling.
+        </p>
+        <div class="tag-row">
+          <span class="tag">SolidWorks</span>
+          <span class="tag">Gear Systems</span>
+          <span class="tag">Milling</span>
+          <span class="tag">Lathe</span>
+          <span class="tag">3D Print</span>
+        </div>
+        <div class="project-images" style="margin-top:1.5rem;">
+          <div class="img-grid-2">
+            <img src="gear_box.png" alt="Solidwork of gear box used on bird" />
+            <img src="final_bird.png" alt="Final assembled bird" />
+          </div>
+        </div>
+      </div>
+
+      <!-- PROSTHETIC KNEE -->
+      <div class="project-card featured">
+        <div class="project-info">
+          <div class="project-number">006 · Biomedical Design</div>
+          <div class="project-title">Prosthetic Knee — Patient-Centered Design</div>
+          <p class="project-desc">
+            Designed a functional above-knee prosthetic for a 6-foot male patient as part of Advanced Mechanical Engineering Design. The goal was to produce a manufacturable, real-world-viable device — not a theoretical exercise. Material selection prioritized structural adequacy, biocompatibility, weight, and cost, mirroring constraints an actual prosthetist would face. The socket geometry accommodates residual limb loading, while the lower linkage provides controlled knee flexion and stability under gait forces. FEA validated structural integrity under expected static and dynamic loading conditions.
+          </p>
+          <div class="tag-row">
+            <span class="tag">SolidWorks</span>
+            <span class="tag">FEA</span>
+            <span class="tag">Biomedical Design</span>
+            <span class="tag">Material Selection</span>
+            <span class="tag">DFM</span>
+            <span class="tag">Human Factors</span>
+          </div>
+          <div style="margin-top:1rem;">
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.5rem;">Key Design Decisions</div>
+            <ul class="exp-bullets">
+              <li>Patient profile: 6 ft male, body weight loading applied as boundary condition in FEA</li>
+              <li>Socket designed to distribute residual limb pressure and reduce stress concentrations</li>
+              <li>Linkage geometry selected for natural gait kinematics and stance-phase stability</li>
+              <li>Material chosen for real-world manufacturability, weight, and durability trade-offs</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <img src="prosthetic_knee.png" alt="SolidWorks CAD model of prosthetic knee — socket and linkage assembly" style="width:100%; border:1px solid var(--border); filter:saturate(0.9);" />
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase;">SolidWorks · Socket & Knee Linkage Assembly</div>
+        </div>
+      </div>
+
+      <!-- ML / DATA -->
+      <div class="project-card">
+        <div class="project-number">007 · Software</div>
+        <div class="project-title">F1 Race Prediction & Data Visualization</div>
+        <p class="project-desc">
+          Applied machine learning to predict Formula 1 race winners from qualification times and historical results. Separately built sports data visualizations in Python, exploring intersections of engineering analysis and athletic performance data.
+        </p>
+        <div class="tag-row">
+          <span class="tag">Python</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Pandas</span>
+          <span class="tag">Matplotlib</span>
+        </div>
+        <div style="display:flex; gap:1rem; margin-top:1rem;">
+          <a href="https://github.com/shinepark/ML-F1" class="project-link" target="_blank" style="font-size:0.65rem;">ML Repo</a>
+          <a href="https://github.com/shinepark/data_visualization" class="project-link" target="_blank" style="font-size:0.65rem;">Viz Repo</a>
+        </div>
+      </div>
+
+    </div>
   </section>
 
-  <!-- Education -->
-  <section id="education" class="py-16">
-    <div class="max-w-6xl mx-auto">
-      <h3 class="text-3xl font-bold mb-8 text-center">Education</h3>
+  <div class="divider"></div>
 
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">The George Washington University</h4>
-        <p class="text-gray-400">Washington, DC — Bachelor of Science in Mechanical Engineering</p>
-        <p class="text-gray-300">Expected May 2026 | GPA: 3.11</p>
-        <p class="text-gray-400 mt-1">Activities: American Institute of Aeronautics and Astronautics Chair</p>
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-tag">02 / Work</span>
+      <h2>Experience</h2>
+    </div>
+
+    <div class="experience-list">
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Aug 2025 – Present</div>
+          <div class="exp-org">Falckon Aerial</div>
+        </div>
+        <div>
+          <div class="exp-title">Agriculture Drone Systems — Team Lead</div>
+          <div class="exp-location">George Washington University · Capstone</div>
+          <ul class="exp-bullets">
+            <li>Designed and modeled autonomous agricultural drones in CAD, specifying carbon fiber composite airframe and BLDC motor configuration for optimal flight endurance</li>
+            <li>Architected distributed swarm coordination system enabling real-time collision avoidance through mesh network communication and consensus-based control between multiple UAVs</li>
+            <li>Developed modular multispectral perception system with standardized power/data interfaces for rapid sensor reconfiguration across agricultural monitoring applications</li>
+            <li>Integrated ArduPilot autopilot, GPS/IMU sensors, and onboard processing for 3D environment mapping and stable flight</li>
+          </ul>
+        </div>
       </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Jun 2024 – Aug 2024</div>
+          <div class="exp-org">National Insitute of Standards and Technology</div>
+        </div>
+        <div>
+          <div class="exp-title">Summer Undergraduate Researcher</div>
+          <div class="exp-location">Gaithersburg, MD</div>
+          <ul class="exp-bullets">
+            <li>Developed MATLAB program to analyze grayscale images of soot-laden surfaces</li>
+            <li>Compared grayscale values to soot deposition from pre-weighed targets</li>
+            <li>Assessed performance against a photo-acoustic method for non-invasive measurement</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">University of Edinburgh</h4>
-        <p class="text-gray-400">Edinburgh, Scotland — Study Abroad</p>
-        <p class="text-gray-300">Aug 2024 – Dec 2024</p>
-        <p class="text-gray-400 mt-1">Activities: Member of Engineering for Change: Precious Plastics</p>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Aug 2023 – May 2024</div>
+          <div class="exp-org">ART-Med Lab</div>
+        </div>
+        <div>
+          <div class="exp-title">Research Assistant Intern</div>
+          <div class="exp-location">George Washington University · Washington, DC</div>
+          <ul class="exp-bullets">
+            <li>Studied C# to develop VR/AR applications for biomedical and engineering contexts</li>
+            <li>Explored immersive technology's potential in healthcare and engineering education</li>
+          </ul>
+        </div>
       </div>
 
-      <div class="mt-12">
-      <h4 class="text-2xl font-bold mb-4 text-center">Courses Taken</h4>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 text-gray-300">
-        <div>MAE 1004 - Engineering Drawing & Computer Graphics</div>
-        <div>MAE 1117 - Intro to Engineering Computations</div>
-        <div>MAE 2117 - Engineering Computations</div>
-        <div>MAE 2131 - Thermodynamics</div>
-        <div>MAE 2170 - History&Impact/US PatentSystem</div>
-        <div>MAE 3119 - Analogue Circuits II</div>
-        <div>MAE 3120 - Methods of Engr Experiments</div>
-        <div>MAE 3128 - Biomechanics I</div>
-        <div>MAE 3126 - Fluid Mechanics I</div>
-        <div>MAE 3127 - Fluid Mechanics Lab</div>
-        <div>MAE 3134 - Linear System Dynamics</div>
-        <div>MAE 3166 - Materials Engineering</div>
-        <div>MAE 3167W - Mechanics of Materials Lab</div>
-        <div>MAE 3187 - Heat Transfer</div>
-        <div>MAE 3191 - Mechanical Design Machine Elements</div>
-        <div>MAE 3192 - Manufacturing Process & System</div>
-        <div>MAE 3193 - Mechanical Systems Design</div>
-        <div>MAE 4151 - Capstone Design I</div>
-        <div>MAE 4152 - Capstone Design II</div>
-        <div>MAE 4182 - Electromechanical Controls</div>
-        <div>MAE 4194 - Mechatronics Design</div>
-        <div>MAE 6243 - Advanced Mechanical Engineering Design</div>
-        <div>MAE 6245 - Robotic Systems</div>
-        <div>MAE 6246 - Electromechanical Control Systems</div>
-        <div>MAE 6291 - Generative AI for Engineering Research</div>
-
-        <div>CSCI 1111 - Algorithms & Data Structures</div>
-        <div>CSCI 1112 - Intro to Software Development</div>
-
-        <div>CE 2220 - Intro to Mechanics of Solids</div>                                               
-        <div>CHEM 1111 - General Chemistry I</div>
-        <div>PHYS 1021 - University Physics I</div>
-        <div>MATH 2233 - Multivariable Calculus</div>
-        <div>MATH 2184 - Linear Algebra I</div>
-        <div>PHYS 1021 - University Physics I</div>
-        <div>PHYS 1022 - University Physics II</div>
-        <div>APSC 2057 - Analytical Mechanics I</div>
-        <div>APSC 2058 - Analytical Mechanics II</div>
-        <div>APSC 2113 - Engineering Analysis I</div>
-        <div>APSC 3115 - Engineering Analysis III</div>
-        <div>PHIL 1051 - Introduction to Philosophy</div>
-        <div>GEOG 1001 - Human Geography</div>
-        <div>PHIL 2135 - Professional Issues</div>
-        <div>PSYC 1001 - General Psychology</div>
-        <div>UW 1020 - University Writing</div>
-        <div>SLHS 1072 - Multicultural Issues-Human Com</div>
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Aug 2021 – May 2022</div>
+          <div class="exp-org">USC</div>
+        </div>
+        <div>
+          <div class="exp-title">Student Research Assistant</div>
+          <div class="exp-location">University of Southern California · Los Angeles, CA</div>
+          <ul class="exp-bullets">
+            <li>Investigated impact of VR games on spinal cord injury rehabilitation</li>
+            <li>Coded and analyzed interview data from patients and medical professionals</li>
+            <li>Conducted literature reviews on VR applications in rehabilitation</li>
+          </ul>
+        </div>
       </div>
-    </div>
-    </div>
-  </section>
-  
-  <!-- Projects -->
-  <section id="projects" class="max-w-6xl mx-auto py-16">
-    <h3 class="text-3xl font-bold mb-8">Projects</h3>
 
-    <div class="mb-12">
-      <h4 class="text-xl font-semibold">Project BIRD – Mechanical Flapping Bird</h4>
-      <p class="text-gray-300 mt-2">
-        A fully mechanical bird with functional wings and rotating head powered by a crank-driven gear system. Designed, machined, and assembled using SolidWorks, laser cutting, 3D printing, and milling.
-      </p>
-      <ul class="list-disc list-inside text-gray-400 mt-2">
-        <li>Skills: CAD, machining, tolerance analysis, teamwork</li>
-        <li>Tools: SolidWorks, AutoCAD, milling machine, lathe</li>
-      </ul>
-    </div>
-
-    <div class="mb-12">
-      <h4 class="text-xl font-semibold">Reverse Engineering: Piscifun Chaos XS 40 Reel</h4>
-      <p class="text-gray-300 mt-2">
-        Reverse engineered a professional-grade fishing reel, analyzing its design, customer needs, and performance. Developed CAD models, FEA, and proposed engineering improvements.
-      </p>
-      <ul class="list-disc list-inside text-gray-400 mt-2">
-        <li>Skills: Product teardown, CAD, FEA, customer analysis</li>
-        <li>Tools: SolidWorks, observation, teamwork</li>
-      </ul>
-    </div>
-
-    <div class="mb-12">
-      <h4 class="text-xl font-semibold">Team of Teams Challenge</h4>
-      <p class="text-gray-300 mt-2">
-        Was a member in a team of teams challenge (consisting of 4 members per team for 8 different teams) where our mission was to autonomously move a golf ball through 40 different mechanisms, 5 seconds per mechanism and have the cycle continuously repeat. 
-      </p>
-      <ul class="list-disc list-inside text-gray-400 mt-2">
-        <li>Skills: CAD, FEA, coding</li>
-        <li>Tools: SolidWorks, Arduino, teamwork, manufacturing, communication</li>
-      </ul>
-    </div>
-
-    <div class="mb-12">
-      <h4 class="text-xl font-semibold">Data Visualizations</h4>
-      <p class="text-gray-300 mt-2">
-        Applied knowledge to topics of interet (i.e sports) and created data visualizations.
-      </p>
-      <a href="https://github.com/shinepark/data_visualization" target="_blank">View The Repository</a>
-      <ul class="list-disc list-inside text-gray-400 mt-2">
-        <li>Skills: Python, Data Visualization</li>
-      </ul>
-    </div>
-
-    <div class="mb-12">
-      <h4 class="text-xl font-semibold">ML Predictions</h4>
-      <p class="text-gray-300 mt-2">
-        I took my love of watching Formula 1 to apply machine learning predictions to predict race winners based on qualification times and previous years race results.
-      </p>
-      <a href="https://github.com/shinepark/ML-F1" target="_blank">View The Repository</a>
-      <ul class="list-disc list-inside text-gray-400 mt-2">
-        <li>Skills: Python, Machine Learning</li>
-      </ul>
     </div>
   </section>
 
-  <!-- Experience -->
-  <section id="experience" class="bg-gray-800 py-16">
-    <div class="max-w-6xl mx-auto">
-      <h3 class="text-3xl font-bold mb-8 text-center">Work Experience</h3>
+  <div class="divider"></div>
 
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">Falckon Aerial Company</h4>
-        <p class="text-gray-400">Capstone Project, Aug 2025 – Present</p>
-        <ul class="list-disc list-inside text-gray-300 mt-2">
-          <li>Designed and modeled autonomous agricultural drones in CAD, specifying carbon fiber composite airframe and BLDC motor configuration to achieve optimal flight endurance</li>
-          <li>Architected distributed swarm coordination system enabling real-time collision avoidance and autonomous field coverage through mesh network communication and consensus-based control algorithms between multiple UAVs</li>   
-          <li>Developed modular perception system architecture with multispectral cameras and standardized power/data interfaces, allowing rapid sensor reconfiguration for diverse agricultural monitoring applications</li>
-          <li>Integrated autonomous flight control system combining ArduPilot autopilot, GPS/IMU sensors, and onboard processing for 3D environment mapping and stable flight </li>
-          <a href="https://github.com/shinepark/drone_simulation" target="_blank">View The Repository</a>
+  <!-- SKILLS -->
+  <section>
+    <div class="section-header">
+      <span class="section-tag">03 / Tools</span>
+      <h2>Skills</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-label">CAD & Simulation</div>
+        <ul class="skill-list">
+          <li>SolidWorks</li>
+          <li>AutoCAD</li>
+          <li>FEA (Stress & Displacement)</li>
+          <li>Tolerance Analysis</li>
+          <li>GD&T</li>
         </ul>
       </div>
-
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">National Institute of Standards and Technology (NIST)</h4>
-        <p class="text-gray-400">Gaithersburg, MD — Summer Undergraduate Researcher, Jun 2024 – Aug 2024</p>
-        <ul class="list-disc list-inside text-gray-300 mt-2">
-          <li>Developed MATLAB program to analyze grayscale images of soot-laden surfaces.</li>
-          <li>Compared grayscale values to soot deposition from pre-weighed targets.</li>
-          <li>Assessed performance against a photo-acoustic method for non-invasive measurement.</li>
+      <div class="skill-group">
+        <div class="skill-group-label">Programming</div>
+        <ul class="skill-list">
+          <li>Python</li>
+          <li>MATLAB</li>
+          <li>C / C++</li>
+          <li>C# (Unity/VR)</li>
+          <li>Arduino</li>
         </ul>
       </div>
-
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">ART-Med Lab, George Washington University</h4>
-        <p class="text-gray-400">Washington, DC — Research Assistant Intern, Aug 2023 – May 2024</p>
-        <ul class="list-disc list-inside text-gray-300 mt-2">
-          <li>Studied C# to develop VR/AR apps for biomedical and engineering applications.</li>
-          <li>Explored immersive technology's potential in healthcare and engineering fields.</li>
+      <div class="skill-group">
+        <div class="skill-group-label">Fabrication</div>
+        <ul class="skill-list">
+          <li>3D Printing (FDM)</li>
+          <li>Laser Cutting</li>
+          <li>CNC Milling</li>
+          <li>Lathe Operation</li>
+          <li>PCB Assembly</li>
         </ul>
       </div>
-
-      <div class="mb-10">
-        <h4 class="text-xl font-semibold">University of Southern California</h4>
-        <p class="text-gray-400">Los Angeles, CA — Student Research Assistant, Aug 2021 – May 2022</p>
-        <ul class="list-disc list-inside text-gray-300 mt-2">
-          <li>Investigated the impact of VR games on spinal cord injury rehabilitation.</li>
-          <li>Coded and analyzed interview data from patients and professionals.</li>
-          <li>Conducted literature reviews on VR applications in rehabilitation.</li>
+      <div class="skill-group">
+        <div class="skill-group-label">Robotics & Control</div>
+        <ul class="skill-list">
+          <li>ROS / ROS2</li>
+          <li>ArduPilot / Mission Planner</li>
+          <li>CubePilot Orange</li>
+          <li>SLAM & LiDAR</li>
+          <li>PID Control</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Analysis</div>
+        <ul class="skill-list">
+          <li>Machine Learning (sklearn)</li>
+          <li>Data Visualization</li>
+          <li>Signal Processing</li>
+          <li>Fluid / Heat Analysis</li>
+          <li>Structural Analysis</li>
+        </ul>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-label">Soft Skills</div>
+        <ul class="skill-list">
+          <li>Technical Writing</li>
+          <li>Cross-team Collaboration</li>
+          <li>Project Management</li>
+          <li>Rapid Prototyping</li>
+          <li>Oral Presentations</li>
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- Resume -->
-  <section id="resume" class="bg-gray-800 py-16">
-    <div class="max-w-4xl mx-auto">
-      <h3 class="text-3xl font-bold mb-6 text-center">Resume</h3>
-      <div class="aspect-w-4 aspect-h-5">
-        <iframe
-          src="./Shine_Park_Resume2025.pdf"
-          class="w-full h-screen rounded-xl shadow-xl"
-        ></iframe>
+  <div class="divider"></div>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-header">
+      <span class="section-tag">04 / Background</span>
+      <h2>Education</h2>
+    </div>
+
+    <div class="edu-grid">
+      <div class="edu-card">
+        <div class="edu-school">The George Washington University</div>
+        <div class="edu-detail">BS Mechanical Engineering · Robotics Concentration</div>
+        <div class="edu-detail">GPA: 3.11</div>
+        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem;">AIAA Chapter Chair</div>
+        <div class="edu-date">Washington, DC · Expected May 2026</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-school">University of Edinburgh</div>
+        <div class="edu-detail">Study Abroad</div>
+        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem;">Engineering for Change: Precious Plastics</div>
+        <div class="edu-date">Edinburgh, Scotland · Aug 2024 – Dec 2024</div>
+      </div>
+    </div>
+
+    <div class="courses-section">
+      <div class="courses-label">Selected Coursework</div>
+      <div class="courses-grid">
+        <div class="course-item">MAE 4151/52 · Capstone Design I & II</div>
+        <div class="course-item">MAE 6245 · Robotic Systems</div>
+        <div class="course-item">MAE 6246 · Electromechanical Control</div>
+        <div class="course-item">MAE 6243 · Advanced Mechanical Engineering Design</div>
+        <div class="course-item">MAE 4194 · Mechatronics Design</div>
+        <div class="course-item">MAE 4182 · Electromechanical Controls</div>
+        <div class="course-item">MAE 3134 · Linear System Dynamics</div>
+        <div class="course-item">MAE 3191 · Mechanical Design</div>
+        <div class="course-item">MAE 3187 · Heat Transfer</div>
+        <div class="course-item">MAE 3126 · Fluid Mechanics</div>
+        <div class="course-item">MAE 3166 · Materials Engineering</div>
+        <div class="course-item">MAE 3192 · Manufacturing Processes</div>
+        <div class="course-item">MAE 2131 · Thermodynamics</div>
+        <div class="course-item">MAE 6291 · Generative AI for Engineering</div>
+        <div class="course-item">CSCI 1111/12 · Algorithms & Dev</div>
+        <div class="course-item">APSC 2057/58 · Analytical Mechanics</div>
+        <div class="course-item">MATH 2233 · Multivariable Calculus</div>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" class="py-16 text-center">
-    <h3 class="text-3xl font-bold mb-4">Contact Me</h3>
-    <p class="text-gray-300 mb-2">📧 spark16@gwu.edu | shinepark123@gmail.com</p>
-    <p class="text-gray-400">🔗 <a href="https://www.linkedin.com/in/shinepark26/" class="underline text-blue-400">LinkedIn</a></p>
-  </section>
+  <div class="divider"></div>
 
-  <!-- Footer -->
-  <footer class="text-center py-4 text-gray-500 bg-gray-800">
-    &copy; 2025 Shine Park. All rights reserved.
-  </footer>
-</body>
-</html>
+  <!-- CONTACT -->
+  <div class="contact-section" id="contact">
+    <div class="section-tag" style="display:inline-block; margin-bottom:1rem;">05 / Get in Touch</div>
+    <h2>Contact</h2>
+    <p class="contact-sub">Open to opportunities in robotics, autonomous systems, and automotive engineering.</p>
+    <div class="contact-links">
+      <a href="/cdn-cgi/l/email-protection#41323120332a7077012636346f242534" class="contact-link">✉ <span class="__cf_email__" data-cfemail="15666574677e2423557262603b707160">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#80f3e8e9eee5f0e1f2ebb1b2b3c0e7ede1e9ecaee3efed" class="contact-link">✉ Gmail</a>
+      <a href="https://www.linkedin.com/in/shinepark26/" class="contact-link" target="_blank">↗ LinkedIn</a>
+      <a href="https://github.com/shinepark" class="contact-link" target="_blank">↗ GitHub</a>
+    </div>
+  </div>
+
+  <
