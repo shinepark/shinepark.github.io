@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
-    :root {
+    /* ── DARK THEME (default) ── */
+    :root,
+    [data-theme="dark"] {
       --bg: #0a0a0f;
       --surface: #111118;
       --surface2: #1a1a24;
@@ -20,6 +22,27 @@
       --text-dim: #4a4a6a;
       --mono: 'Space Mono', monospace;
       --sans: 'DM Sans', sans-serif;
+      --noise-opacity: 0.4;
+      --nav-bg: rgba(10,10,15,0.85);
+      --toggle-icon: '☀';
+      --toggle-label: 'Light';
+    }
+
+    /* ── LIGHT THEME ── */
+    [data-theme="light"] {
+      --bg: #f5f4f0;
+      --surface: #ffffff;
+      --surface2: #edecea;
+      --border: #d4d2cc;
+      --accent: #2a5fd4;
+      --accent2: #d44a1a;
+      --text: #1a1a22;
+      --text-muted: #5a5a6e;
+      --text-dim: #9a9aaa;
+      --noise-opacity: 0.15;
+      --nav-bg: rgba(245,244,240,0.88);
+      --toggle-icon: '☾';
+      --toggle-label: 'Dark';
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,6 +56,7 @@
       font-weight: 300;
       line-height: 1.7;
       overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     /* ── NOISE TEXTURE OVERLAY ── */
@@ -43,7 +67,8 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
       pointer-events: none;
       z-index: 999;
-      opacity: 0.4;
+      opacity: var(--noise-opacity);
+      transition: opacity 0.3s ease;
     }
 
     /* ── NAV ── */
@@ -55,9 +80,10 @@
       justify-content: space-between;
       align-items: center;
       padding: 1.2rem 4rem;
-      background: rgba(10,10,15,0.85);
+      background: var(--nav-bg);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     .nav-logo {
@@ -66,6 +92,13 @@
       letter-spacing: 0.15em;
       color: var(--accent);
       text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
     }
 
     .nav-links {
@@ -85,6 +118,34 @@
     }
 
     .nav-links a:hover { color: var(--text); }
+
+    /* ── THEME TOGGLE ── */
+    .theme-toggle {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      background: transparent;
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .theme-toggle .toggle-icon {
+      font-size: 0.85rem;
+      line-height: 1;
+    }
 
     /* ── HERO ── */
     .hero {
@@ -106,6 +167,11 @@
       height: 600px;
       background: radial-gradient(circle, rgba(91,143,255,0.08) 0%, transparent 70%);
       pointer-events: none;
+      transition: background 0.3s ease;
+    }
+
+    [data-theme="light"] .hero::after {
+      background: radial-gradient(circle, rgba(42,95,212,0.06) 0%, transparent 70%);
     }
 
     .hero-text { max-width: 540px; }
@@ -120,6 +186,7 @@
       display: flex;
       align-items: center;
       gap: 0.75rem;
+      transition: color 0.3s ease;
     }
 
     .hero-label::before {
@@ -128,6 +195,7 @@
       width: 2rem;
       height: 1px;
       background: var(--accent);
+      transition: background 0.3s ease;
     }
 
     h1 {
@@ -139,13 +207,14 @@
       margin-bottom: 1.5rem;
     }
 
-    h1 span { color: var(--accent); }
+    h1 span { color: var(--accent); transition: color 0.3s ease; }
 
     .hero-bio {
       color: var(--text-muted);
       font-size: 1rem;
       max-width: 480px;
       margin-bottom: 2.5rem;
+      transition: color 0.3s ease;
     }
 
     .hero-cta {
@@ -196,6 +265,7 @@
       padding-left: 4rem;
       border-left: 1px solid var(--border);
       margin-left: 2rem;
+      transition: border-color 0.3s ease;
     }
 
     .stat-item {
@@ -210,6 +280,7 @@
       font-weight: 700;
       color: var(--text);
       line-height: 1;
+      transition: color 0.3s ease;
     }
 
     .stat-label {
@@ -218,6 +289,7 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-dim);
+      transition: color 0.3s ease;
     }
 
     /* ── SECTION BASE ── */
@@ -245,6 +317,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
+      transition: color 0.3s ease;
     }
 
     h2 {
@@ -260,6 +333,7 @@
       height: 1px;
       background: linear-gradient(90deg, transparent, var(--border), transparent);
       margin: 0;
+      transition: background 0.3s ease;
     }
 
     /* ── PROJECTS ── */
@@ -268,6 +342,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 1.5px;
       background: var(--border);
+      transition: background 0.3s ease;
     }
 
     .project-card {
@@ -294,6 +369,7 @@
       letter-spacing: 0.2em;
       color: var(--text-dim);
       margin-bottom: 1.25rem;
+      transition: color 0.3s ease;
     }
 
     .project-title {
@@ -302,12 +378,14 @@
       font-weight: 700;
       margin-bottom: 0.75rem;
       color: var(--text);
+      transition: color 0.3s ease;
     }
 
     .project-desc {
       color: var(--text-muted);
       font-size: 0.9rem;
       margin-bottom: 1.5rem;
+      transition: color 0.3s ease;
     }
 
     .tag-row {
@@ -340,6 +418,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      transition: color 0.3s ease;
     }
 
     .project-link::after { content: '→'; }
@@ -359,7 +438,7 @@
       display: block;
       border: 1px solid var(--border);
       filter: saturate(0.9);
-      transition: filter 0.3s;
+      transition: filter 0.3s, border-color 0.3s ease;
     }
 
     .project-images img:hover,
@@ -384,6 +463,7 @@
       gap: 3rem;
       padding: 2.5rem 0;
       border-bottom: 1px solid var(--border);
+      transition: border-color 0.3s ease;
     }
 
     .exp-item:first-child { border-top: 1px solid var(--border); }
@@ -396,12 +476,14 @@
       letter-spacing: 0.1em;
       color: var(--text-dim);
       margin-bottom: 0.4rem;
+      transition: color 0.3s ease;
     }
 
     .exp-org {
       font-family: var(--mono);
       font-size: 0.8rem;
       color: var(--accent);
+      transition: color 0.3s ease;
     }
 
     .exp-title {
@@ -418,6 +500,7 @@
       font-family: var(--mono);
       font-size: 0.7rem;
       letter-spacing: 0.05em;
+      transition: color 0.3s ease;
     }
 
     .exp-bullets {
@@ -432,6 +515,7 @@
       color: var(--text-muted);
       padding-left: 1.2rem;
       position: relative;
+      transition: color 0.3s ease;
     }
 
     .exp-bullets li::before {
@@ -447,11 +531,13 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
+      transition: background 0.3s ease;
     }
 
     .skill-group {
       background: var(--surface);
       padding: 2rem;
+      transition: background 0.3s ease;
     }
 
     .skill-group-label {
@@ -461,6 +547,7 @@
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 1.25rem;
+      transition: color 0.3s ease;
     }
 
     .skill-list {
@@ -476,6 +563,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      transition: color 0.3s ease;
     }
 
     .skill-list li::before {
@@ -486,6 +574,7 @@
       border-radius: 50%;
       background: var(--border);
       flex-shrink: 0;
+      transition: background 0.3s ease;
     }
 
     /* ── EDUCATION ── */
@@ -495,11 +584,13 @@
       gap: 1.5px;
       background: var(--border);
       margin-bottom: 4rem;
+      transition: background 0.3s ease;
     }
 
     .edu-card {
       background: var(--surface);
       padding: 2.5rem;
+      transition: background 0.3s ease;
     }
 
     .edu-school {
@@ -513,6 +604,7 @@
       font-size: 0.85rem;
       color: var(--text-muted);
       margin-bottom: 0.2rem;
+      transition: color 0.3s ease;
     }
 
     .edu-date {
@@ -520,6 +612,7 @@
       font-size: 0.7rem;
       color: var(--text-dim);
       margin-top: 0.75rem;
+      transition: color 0.3s ease;
     }
 
     /* ── COURSES ── */
@@ -532,6 +625,7 @@
       text-transform: uppercase;
       color: var(--text-dim);
       margin-bottom: 1.5rem;
+      transition: color 0.3s ease;
     }
 
     .courses-grid {
@@ -560,6 +654,7 @@
       border-top: 1px solid var(--border);
       padding: 6rem 4rem;
       text-align: center;
+      transition: background 0.3s ease, border-color 0.3s ease;
     }
 
     .contact-section h2 {
@@ -570,6 +665,7 @@
       color: var(--text-muted);
       margin-bottom: 3rem;
       font-size: 1rem;
+      transition: color 0.3s ease;
     }
 
     .contact-links {
@@ -606,6 +702,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      transition: border-color 0.3s ease;
     }
 
     footer span {
@@ -613,6 +710,7 @@
       font-size: 0.65rem;
       letter-spacing: 0.1em;
       color: var(--text-dim);
+      transition: color 0.3s ease;
     }
 
     /* ── FADE IN ANIMATION ── */
@@ -634,6 +732,7 @@
     @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { gap: 1.2rem; }
+      .nav-right { gap: 1.2rem; }
       .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
       .hero-stats { flex-direction: row; border-left: none; border-top: 1px solid var(--border); padding: 2rem 0 0; margin: 2rem 0 0; }
       section { padding: 4rem 1.5rem; }
@@ -645,6 +744,7 @@
       .edu-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
       .contact-section { padding: 4rem 1.5rem; }
+      .theme-toggle .toggle-text { display: none; }
     }
   </style>
 </head>
@@ -653,13 +753,18 @@
   <!-- NAV -->
   <nav>
     <a class="nav-logo" href="#">SP — 2026</a>
-    <ul class="nav-links">
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#publications">Publications</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <span class="toggle-icon" id="toggleIcon">☀</span>
+        <span class="toggle-text" id="toggleText">Light</span>
+      </button>
+    </div>
   </nav>
 
   <!-- HERO -->
@@ -676,10 +781,6 @@
       </div>
     </div>
     <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-number">3.11</span>
-        <span class="stat-label">GPA · GWU</span>
-      </div>
       <div class="stat-item">
         <span class="stat-number">6+</span>
         <span class="stat-label">Projects</span>
@@ -715,29 +816,32 @@
             <span class="tag">Mission Planner</span>
             <span class="tag">ArduPilot</span>
             <span class="tag">BLDC Motors</span>
-            <span class="tag">Carbon Fiber</span>
-            <span class="tag">Swarm Control</span>
+            <span class="tag">Python</span>
+            <span class="tag">Autonomous Swarm</span>
             <span class="tag">CAD</span>
           </div>
-          <a href="https://github.com/shinepark/drone_capstone" class="project-link" target="_blank">View Repository</a>
+          <div style="display:flex; gap:1rem; margin-top:1rem;">
+            <a href="https://github.com/shinepark/drone_capstone" class="project-link" target="_blank">View Repository</a>
+            <a href="https://shinepark.github.io/drone_capstone" class="project-link" target="_blank">Waypoint Generator Demo</a>
+          </div>  
         </div>
         <div>
-          <div style="background:var(--surface2); border:1px solid var(--border); padding:2rem; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1rem;">
-            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); text-align:center;">Swarm Architecture Concept</div>
+          <div style="background:var(--surface2); border:1px solid var(--border); padding:2rem; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:1rem; transition: background 0.3s ease, border-color 0.3s ease;">
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--text-dim); text-align:center; transition: color 0.3s ease;">Swarm Architecture Concept</div>
             <svg viewBox="0 0 280 180" style="width:100%; max-width:280px;" xmlns="http://www.w3.org/2000/svg">
               <!-- field -->
-              <rect x="20" y="30" width="240" height="130" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+              <rect x="20" y="30" width="240" height="130" fill="none" stroke="var(--border)" stroke-width="1"/>
               <!-- drone 1 path -->
-              <polyline points="40,50 240,50 240,90 40,90 40,130 240,130" fill="none" stroke="#5b8fff" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
+              <polyline points="40,50 240,50 240,90 40,90 40,130 240,130" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
               <!-- drone 2 path -->
               <polyline points="240,70 40,70 40,110 240,110 240,150 40,150" fill="none" stroke="#ff6b35" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.6"/>
               <!-- drone 1 icon -->
               <g transform="translate(80,50)">
-                <circle r="6" fill="#5b8fff" opacity="0.9"/>
-                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="#5b8fff" stroke-width="1.5"/>
-                <line x1="9" y1="-9" x2="5" y2="-5" stroke="#5b8fff" stroke-width="1.5"/>
-                <line x1="-9" y1="9" x2="-5" y2="5" stroke="#5b8fff" stroke-width="1.5"/>
-                <line x1="9" y1="9" x2="5" y2="5" stroke="#5b8fff" stroke-width="1.5"/>
+                <circle r="6" fill="var(--accent)" opacity="0.9"/>
+                <line x1="-9" y1="-9" x2="-5" y2="-5" stroke="var(--accent)" stroke-width="1.5"/>
+                <line x1="9" y1="-9" x2="5" y2="-5" stroke="var(--accent)" stroke-width="1.5"/>
+                <line x1="-9" y1="9" x2="-5" y2="5" stroke="var(--accent)" stroke-width="1.5"/>
+                <line x1="9" y1="9" x2="5" y2="5" stroke="var(--accent)" stroke-width="1.5"/>
               </g>
               <!-- drone 2 icon -->
               <g transform="translate(200,110)">
@@ -748,11 +852,11 @@
                 <line x1="9" y1="9" x2="5" y2="5" stroke="#ff6b35" stroke-width="1.5"/>
               </g>
               <!-- mesh link -->
-              <line x1="80" y1="50" x2="200" y2="110" stroke="#2a2a3a" stroke-width="1" stroke-dasharray="2,3"/>
+              <line x1="80" y1="50" x2="200" y2="110" stroke="var(--border)" stroke-width="1" stroke-dasharray="2,3"/>
               <!-- labels -->
-              <text x="60" y="44" font-family="Space Mono" font-size="7" fill="#5b8fff">UAV-01</text>
+              <text x="60" y="44" font-family="Space Mono" font-size="7" fill="var(--accent)">UAV-01</text>
               <text x="180" y="104" font-family="Space Mono" font-size="7" fill="#ff6b35">UAV-02</text>
-              <text x="140" y="22" font-family="Space Mono" font-size="6" fill="#4a4a6a" text-anchor="middle">FIELD COVERAGE PATTERN</text>
+              <text x="140" y="22" font-family="Space Mono" font-size="6" fill="var(--text-dim)" text-anchor="middle">FIELD COVERAGE PATTERN</text>
             </svg>
           </div>
         </div>
@@ -851,7 +955,7 @@
             <span class="tag">Human Factors</span>
           </div>
           <div style="margin-top:1rem;">
-            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.5rem;">Key Design Decisions</div>
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.5rem; transition: color 0.3s ease;">Key Design Decisions</div>
             <ul class="exp-bullets">
               <li>Patient profile: 6 ft male, body weight loading applied as boundary condition in FEA</li>
               <li>Socket designed to distribute residual limb pressure and reduce stress concentrations</li>
@@ -861,8 +965,8 @@
           </div>
         </div>
         <div>
-          <img src="prosthetic_knee.png" alt="SolidWorks CAD model of prosthetic knee — socket and linkage assembly" style="width:100%; border:1px solid var(--border); filter:saturate(0.9);" />
-          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase;">SolidWorks · Socket & Knee Linkage Assembly</div>
+          <img src="prosthetic_knee.png" alt="SolidWorks CAD model of prosthetic knee — socket and linkage assembly" style="width:100%; border:1px solid var(--border); filter:saturate(0.9); transition: border-color 0.3s ease;" />
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase; transition: color 0.3s ease;">SolidWorks · Socket & Knee Linkage Assembly</div>
         </div>
       </div>
 
@@ -910,6 +1014,22 @@
           <ul class="exp-bullets">
             <li>Support students in MAE 1117 (Introduction to Engineering Computations) through office hours and in-class assistance</li>
             <li>Reinforce core computational concepts including Python programming, numerical methods, and engineering problem-solving workflows</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Aug 2025 – Present</div>
+          <div class="exp-org">UP Robotics</div>
+        </div>
+        <div>
+          <div class="exp-title">Engineering Instructor</div>
+          <div class="exp-location">Bethesda, MD</div>
+          <ul class="exp-bullets">
+            <li>Led a class focusing on underwater robotics, sponsored by the SeaPerch competition to build an underwater remote operated vehicle (ROV), focusing on engineering topics like soldering, mechanical design, and manufacturing</li>
+            <li>Led a class that utilizes the Lego Spike Hub teaching how to code the hub via Python rather than by word blocks</li>
+            <li>Helped lead a class in FIRST Robotics, mentoring a FTC team, helping review their mechanical and robotic designs, CAD, and code</li>
           </ul>
         </div>
       </div>
@@ -990,26 +1110,26 @@
       <h2>Publications</h2>
     </div>
  
-    <div style="border: 1px solid var(--border); background: var(--surface);">
+    <div style="border: 1px solid var(--border); background: var(--surface); transition: border-color 0.3s ease, background 0.3s ease;">
  
       <!-- Publication card -->
-      <div style="padding: 2.5rem; border-bottom: 1px solid var(--border);">
+      <div style="padding: 2.5rem; border-bottom: 1px solid var(--border); transition: border-color 0.3s ease;">
         <div style="display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: start;">
           <div>
-            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem;">
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent); margin-bottom:0.75rem; transition: color 0.3s ease;">
               Journal Article · 2026
             </div>
             <div style="font-family:var(--mono); font-size:1rem; font-weight:700; margin-bottom:0.75rem; line-height:1.4;">
               A comparison of photoacoustic and grayscale measurements of soot deposition on surfaces
             </div>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem;">
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0.4rem; transition: color 0.3s ease;">
               Amy E. Mensch, Ryan Falkenstein-Smith, <strong style="color:var(--text);">Shine Park</strong>
             </div>
-            <div style="font-family:var(--mono); font-size:0.72rem; color:var(--text-dim); margin-bottom:1.25rem;">
+            <div style="font-family:var(--mono); font-size:0.72rem; color:var(--text-dim); margin-bottom:1.25rem; transition: color 0.3s ease;">
               <em>Fire Safety Journal</em> · Volume 162, July 2026, 104767 · Elsevier
             </div>
-            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem; max-width:680px; line-height:1.6;">
-              Investigates non-invasive soot deposition measurement techniques as practical tools for fire investigators. Compares a novel photoacoustic method which uses a camera flash and microphone to measure deposited soot mass against an established grayscale image analysis approach. The photoacoustic method produced equal or higher correlation coefficients and performed consistently across drywall and metal substrates.
+            <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem; max-width:680px; line-height:1.6; transition: color 0.3s ease;">
+              Investigates non-invasive soot deposition measurement techniques as practical tools for fire investigators. Compares a novel photoacoustic method — which uses a camera flash and microphone to measure deposited soot mass — against an established grayscale image analysis approach. The photoacoustic method produced equal or higher correlation coefficients and performed consistently across drywall and metal substrates.
             </div>
             <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-bottom:1.5rem;">
               <span class="tag">Fire Forensics</span>
@@ -1024,12 +1144,12 @@
             </div>
           </div>
           <!-- Citation box -->
-          <div style="min-width:220px; max-width:260px; background:var(--surface2); border:1px solid var(--border); padding:1.25rem;">
-            <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.75rem;">Cite</div>
-            <div style="font-family:var(--mono); font-size:0.65rem; color:var(--text-muted); line-height:1.7;">
+          <div style="min-width:220px; max-width:260px; background:var(--surface2); border:1px solid var(--border); padding:1.25rem; transition: background 0.3s ease, border-color 0.3s ease;">
+            <div style="font-family:var(--mono); font-size:0.6rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.75rem; transition: color 0.3s ease;">Cite</div>
+            <div style="font-family:var(--mono); font-size:0.65rem; color:var(--text-muted); line-height:1.7; transition: color 0.3s ease;">
               Mensch, A.E., Falkenstein-Smith, R., &amp; Park, S. (2026).<br>
               <em>Fire Safety Journal</em>, 162, 104767.<br>
-              <a href="https://doi.org/10.1016/j.firesaf.2026.104767" target="_blank" style="color:var(--accent); text-decoration:none;">doi:10.1016/j.firesaf.2026.104767</a>
+              <a href="https://doi.org/10.1016/j.firesaf.2026.104767" target="_blank" style="color:var(--accent); text-decoration:none; transition: color 0.3s ease;">doi:10.1016/j.firesaf.2026.104767</a>
             </div>
           </div>
         </div>
@@ -1040,7 +1160,6 @@
  
   <div class="divider"></div>
  
-
   <!-- SKILLS -->
   <section>
     <div class="section-header">
@@ -1053,7 +1172,7 @@
         <ul class="skill-list">
           <li>SolidWorks</li>
           <li>AutoCAD</li>
-          <li>FEA (Stress & Displacement)</li>
+          <li>FEA</li>
           <li>Tolerance Analysis</li>
           <li>GD&T</li>
         </ul>
@@ -1066,6 +1185,7 @@
           <li>C / C++</li>
           <li>C# (Unity/VR)</li>
           <li>Arduino</li>
+          <li>Java</li>
         </ul>
       </div>
       <div class="skill-group">
@@ -1125,13 +1245,13 @@
         <div class="edu-school">The George Washington University</div>
         <div class="edu-detail">BS Mechanical Engineering · Robotics Concentration</div>
         <div class="edu-detail">GPA: 3.11</div>
-        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem;">AIAA Chapter Chair</div>
+        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem; transition: color 0.3s ease;">AIAA Chapter Chair</div>
         <div class="edu-date">Washington, DC · Expected May 2026</div>
       </div>
       <div class="edu-card">
         <div class="edu-school">University of Edinburgh</div>
         <div class="edu-detail">Study Abroad</div>
-        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem;">Engineering for Change: Precious Plastics</div>
+        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem; transition: color 0.3s ease;">Engineering for Change: Precious Plastics</div>
         <div class="edu-date">Edinburgh, Scotland · Aug 2024 – Dec 2024</div>
       </div>
     </div>
@@ -1174,4 +1294,37 @@
     </div>
   </div>
 
-  <
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('toggleIcon');
+    const label = document.getElementById('toggleText');
+    const html = document.documentElement;
+
+    // Check saved preference
+    const saved = localStorage.getItem('theme');
+    if (saved) {
+      html.setAttribute('data-theme', saved);
+      updateToggle(saved);
+    }
+
+    toggle.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateToggle(next);
+    });
+
+    function updateToggle(theme) {
+      if (theme === 'light') {
+        icon.textContent = '☾';
+        label.textContent = 'Dark';
+      } else {
+        icon.textContent = '☀';
+        label.textContent = 'Light';
+      }
+    }
+  </script>
+
+</body>
+</html>
