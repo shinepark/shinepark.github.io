@@ -773,7 +773,7 @@
       <div class="hero-label">Mechanical Engineer</div>
       <h1>Shine<br><span>Park</span></h1>
       <p class="hero-bio">
-        4th year BS Mechanical Engineering student at GWU with a concentration in Robotics. Building autonomous drones, robotic dogs, and mechatronic systems. Passionate about UAVs, autonomous navigation, and the future of mobility.
+        Current MS Mechanical Engineering student at the University of Washington. 
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -786,8 +786,8 @@
         <span class="stat-label">Projects</span>
       </div>
       <div class="stat-item">
-        <span class="stat-number">'26</span>
-        <span class="stat-label">Graduating May</span>
+        <span class="stat-number">'28</span>
+        <span class="stat-label">Graduating June</span>
       </div>
     </div>
   </div>
@@ -809,7 +809,9 @@
           <div class="project-number">001 · Capstone</div>
           <div class="project-title">Falckon Aerial — Autonomous Agricultural Drone Swarm</div>
           <p class="project-desc">
-            Designing and building two agricultural drones from scratch that autonomously navigate a field without collision. Architected a distributed swarm coordination system using mesh networking and consensus-based control, integrating CubePilot Orange autopilot with GPS/IMU sensors and Mission Planner for 3D environment mapping and stable flight.
+            Designing and building two agricultural drones from scratch that autonomously navigate a field without collision.
+            Architected a distributed swarm coordination system using mesh networking and consensus-based control, integrating CubePilot Orange
+            autopilot with GPS/IMU sensors and Mission Planner for 3D environment mapping and stable flight.
           </p>
           <div class="tag-row">
             <span class="tag">CubePilot Orange</span>
@@ -867,7 +869,9 @@
         <div class="project-number">002 · Mechatronics</div>
         <div class="project-title">Team of Teams — Golf Ball Transfer System</div>
         <p class="project-desc">
-          One of 8 teams (4 members each) tasked with building a subsystem to autonomously move a golf ball through 40 linked mechanisms, 5 seconds per handoff in a continuous loop. Designed and fabricated the mechanism using SolidWorks CAD, performed FEA, and coded the Arduino control logic.
+          One of 8 teams (4 members each) tasked with building a subsystem to autonomously move a golf ball through
+          40 linked mechanisms, 5 seconds per handoff in a continuous loop. Designed and fabricated the mechanism using
+          SolidWorks CAD, performed FEA, and coded the Arduino control logic.
         </p>
         <div class="tag-row">
           <span class="tag">SolidWorks</span>
@@ -890,7 +894,9 @@
         <div class="project-number">003 · Reverse Engineering</div>
         <div class="project-title">Piscifun Chaos XS 40 — Reverse Engineering</div>
         <p class="project-desc">
-          Full teardown and reverse engineering of a professional fishing reel. Analyzed design intent, customer needs, and performance characteristics. Developed complete CAD models, ran FEA, and proposed targeted engineering improvements.
+          Full teardown and reverse engineering of a professional fishing reel.
+          Analyzed design intent, customer needs, and performance characteristics.
+          Developed complete CAD models, ran FEA, and proposed targeted engineering improvements.
         </p>
         <div class="tag-row">
           <span class="tag">SolidWorks</span>
@@ -905,7 +911,8 @@
         <div class="project-number">004 · Mechanical Design</div>
         <div class="project-title">Project BIRD — Mechanical Flapping Bird</div>
         <p class="project-desc">
-          Fully mechanical bird with functional flapping wings and a rotating head. Powered by a crank-driven gear system, designed in SolidWorks, and fabricated using laser cutting, 3D printing, and milling.
+          Fully mechanical bird with functional flapping wings and a rotating head.
+          Powered by a crank-driven gear system, designed in SolidWorks, and fabricated using laser cutting, 3D printing, and milling.
         </p>
         <div class="tag-row">
           <span class="tag">SolidWorks</span>
@@ -928,7 +935,12 @@
           <div class="project-number">005 · Biomedical Design</div>
           <div class="project-title">Prosthetic Knee — Patient-Centered Design</div>
           <p class="project-desc">
-            Designed a functional above-knee prosthetic for a 6-foot male patient as part of Advanced Mechanical Engineering Design. The goal was to produce a manufacturable, real-world-viable device, not just a theoretical exercise. Material selection prioritized structural adequacy, biocompatibility, weight, and cost, mirroring constraints an actual prosthetist would face. The socket geometry accommodates residual limb loading, while the lower linkage provides controlled knee flexion and stability under gait forces. FEA validated structural integrity under expected static and dynamic loading conditions.
+            Designed a functional above-knee prosthetic for a 6-foot male patient as part of
+            Advanced Mechanical Engineering Design. The goal was to produce a manufacturable,
+            real-world-viable device, not just a theoretical exercise. Material selection prioritized structural adequacy,
+            biocompatibility, weight, and cost, mirroring constraints an actual prosthetist would face. The socket geometry
+            accommodates residual limb loading, while the lower linkage provides controlled knee flexion and stability under gait forces.
+            FEA validated structural integrity under expected static and dynamic loading conditions.
           </p>
           <div class="tag-row">
             <span class="tag">SolidWorks</span>
@@ -956,23 +968,45 @@
 
       <!-- ML / DATA -->
       <div class="project-card">
-        <div class="project-number">006 · Software</div>
-        <div class="project-title">F1 Race Prediction & Data Visualization</div>
+        <div class="project-number">006 · Data Analysis</div>
+        <div class="project-title">F1 Race Strategy Analytics — Tire Degradation Modeling & Monte Carlo Pit Strategy Optimizer</div>
         <p class="project-desc">
-          Applied machine learning to predict Formula 1 race winners from qualification times and historical results. Separately built sports data visualizations in Python, exploring intersections of engineering analysis and athletic performance data.
+          An end-to-end analytics pipeline built on real FastF1 session data that models tire degradation via linear regression per stint,
+          visualizes race strategy and pace evolution, computes telemetry-based delta-time between drivers, and runs a Monte Carlo simulation 
+          to compare candidate pit-stop strategies with a proper win probability, using common random numbers so the comparison isn't just noise.
+          The degradation model surfaced a real methodological subtlety: at low-degradation circuits like Monza, fuel burn can
+          outweigh tire wear entirely, producing a negative raw regression slope that the pipeline now surfaces explicitly rather than silently flooring to zero.
         </p>
         <div class="tag-row">
           <span class="tag">Python</span>
-          <span class="tag">Machine Learning</span>
+          <span class="tag">Regression Modeling</span>
           <span class="tag">Pandas</span>
           <span class="tag">Matplotlib</span>
+          <span class="tag">Monte Carlo Simulation</span>
+        </div>
+        <div style="margin-top:1rem;">
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.5rem; transition: color 0.3s ease;">Key Design Decisions</div>
+          <ul class="exp-bullets">
+            <li>Tire degradation fit per (driver, stint) via OLS on lap time vs. tire age, with an explicit fuel-burn correction flag rather than a hidden assumption</li>
+            <li>Monte Carlo strategy comparison uses shared (common) random draws for lap noise and safety-car timing across every candidate strategy per simulated race, so win probability reflects strategy choice, not luck</li>
+            <li>Candidate strategies are generated dynamically from whichever tire compounds actually appear in a given session, rather than hardcoded</li>
+            <li>Telemetry delta-time trace computed by resampling both drivers' speed channels onto a common distance grid and integrating</li>
+          </ul>
         </div>
         <div style="display:flex; gap:1rem; margin-top:1rem;">
-          <a href="https://github.com/shinepark/ML-F1" class="project-link" target="_blank" style="font-size:0.65rem;">ML Repo</a>
-          <a href="https://github.com/shinepark/data_visualization" class="project-link" target="_blank" style="font-size:0.65rem;">Viz Repo</a>
+          <a href="https://github.com/shinepark/visualizing-F1-data" class="project-link" target="_blank">View Repository</a>
         </div>
       </div>
-
+      <div>
+          <div class="img-grid-2">
+            <img src="f1_tire_strategy.png" alt="Tire strategy timeline showing each driver's stint compounds and lengths across the race" />
+            <img src="f1_degradation.png" alt="Bar chart of mean tire degradation rate in seconds per lap by compound" />
+            <img src="f1_speed_trace.png" alt="Fastest lap speed trace comparison between two drivers around the circuit" />
+            <img src="f1_strategy_distributions.png" alt="Violin plot of Monte Carlo simulated total race time distributions per pit-stop strategy, annotated with win probability" />
+          </div>
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase; transition: color 0.3s ease;">Tire Strategy · Degradation · Speed Trace · Monte Carlo Strategy Comparison</div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -989,7 +1023,21 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-date">Jan 2026 – Present</div>
+          <div class="exp-date">June 2026 – May 2026</div>
+          <div class="exp-org">TEECOM</div>
+        </div>
+        <div>
+          <div class="exp-title">Design Engineer I</div>
+          <div class="exp-location">TEECOM</div>
+          <ul class="exp-bullets">
+            <li>Designing security systems in buildings.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-meta">
+          <div class="exp-date">Jan 2026 – May 2026</div>
           <div class="exp-org">GWU</div>
         </div>
         <div>
@@ -1004,7 +1052,7 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-date">Aug 2025 – Present</div>
+          <div class="exp-date">Aug 2025 – May 2026</div>
           <div class="exp-org">UP Robotics</div>
         </div>
         <div>
@@ -1020,7 +1068,7 @@
 
       <div class="exp-item">
         <div class="exp-meta">
-          <div class="exp-date">Aug 2025 – Present</div>
+          <div class="exp-date">Aug 2025 – May 2026</div>
           <div class="exp-org">Falckon Aerial</div>
         </div>
         <div>
@@ -1156,6 +1204,7 @@
         <ul class="skill-list">
           <li>SolidWorks</li>
           <li>AutoCAD</li>
+          <li>Revit</li>
           <li>FEA</li>
           <li>Tolerance Analysis</li>
           <li>GD&T</li>
@@ -1226,11 +1275,18 @@
 
     <div class="edu-grid">
       <div class="edu-card">
+        <div class="edu-school">University of Washington</div>
+        <div class="edu-detail">mS Mechanical Engineering</div>
+        <div class="edu-detail">GPA: </div>
+        <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem; transition: color 0.3s ease;"></div>
+        <div class="edu-date">Seattle, WA · Expected June 2028</div>
+      </div>
+      <div class="edu-card">
         <div class="edu-school">The George Washington University</div>
         <div class="edu-detail">BS Mechanical Engineering · Robotics Concentration</div>
         <div class="edu-detail">GPA: 3.11</div>
         <div class="edu-detail" style="margin-top:0.5rem; color:var(--text-dim); font-size:0.8rem; transition: color 0.3s ease;">AIAA Chapter Chair</div>
-        <div class="edu-date">Washington, DC · Expected May 2026</div>
+        <div class="edu-date">Washington, DC · May 2026</div>
       </div>
       <div class="edu-card">
         <div class="edu-school">University of Edinburgh</div>
@@ -1270,9 +1326,8 @@
   <div class="contact-section" id="contact">
     <div class="section-tag" style="display:inline-block; margin-bottom:1rem;">05 / Get in Touch</div>
     <h2>Contact</h2>
-    <p class="contact-sub">Open to opportunities in robotics, autonomous systems, and automotive engineering.</p>
+    <p class="contact-sub">Obtained FE Mechanical.</p>
     <div class="contact-links">
-      <a href="/cdn-cgi/l/email-protection#80f3e8e9eee5f0e1f2ebb1b2b3c0e7ede1e9ecaee3efed" class="contact-link">✉ Gmail</a>
       <a href="https://www.linkedin.com/in/shinepark26/" class="contact-link" target="_blank">↗ LinkedIn</a>
       <a href="https://github.com/shinepark" class="contact-link" target="_blank">↗ GitHub</a>
     </div>
