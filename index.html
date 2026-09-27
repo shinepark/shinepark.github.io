@@ -782,7 +782,7 @@
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <span class="stat-number">6+</span>
+        <span class="stat-number">7+</span>
         <span class="stat-label">Projects</span>
       </div>
       <div class="stat-item">
@@ -1004,6 +1004,69 @@
             <img src="f1_strategy_distribution.png" alt="Violin plot of Monte Carlo simulated total race time distributions per pit-stop strategy, annotated with win probability" />
           </div>
           <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase; transition: color 0.3s ease;">Tire Strategy · Degradation · Speed Trace · Monte Carlo Strategy Comparison</div>
+        </div>
+      </div>
+
+      <!-- WSL TACTICAL ANALYSIS -->
+      <div class="project-card featured">
+        <div class="project-info">
+          <div class="project-number">007 · Data Analysis</div>
+          <div class="project-title">WSL Tactical Evolution — Statistical Testing, Clustering, and Passing-Network Analysis on StatsBomb Open Data</div>
+          <p class="project-desc">
+            An end-to-end analytics pipeline testing whether the FA Women's Super League actually played differently
+            across three eras — pre-COVID (2018/19), behind-closed-doors COVID football (2020/21), and the
+            post-Euro-2022 investment boom (2023/24) — using ~1.3M StatsBomb open-data events across 370 matches.
+            Rather than eyeballing averages, the pipeline runs one-way ANOVA per tactical feature to find what
+            actually differs significantly, PCA + KMeans clustering (blind to era labels) to check whether team-seasons
+            naturally separate by era, and a Random Forest era classifier validated with Leave-One-Out cross-validation
+            and a 200-permutation significance test — appropriate rigor for an n=35 dataset, rather than reporting a
+            cross-val score and calling it done. The finding: the post-2022 WSL isn't scoring or dominating possession
+            more, it's pressing 23% harder and playing 2.4m shorter, 8-points-more-accurate passes — a structural shift
+            in style, not just quality. A separate graph-theory layer builds actual passing networks per match with
+            NetworkX (nodes = players by average touch location, edges = completed passes) and computes betweenness
+            centrality and network centralization to test whether that shift also meant more evenly distributed
+            possession across the team, rather than reliance on one or two hub players.
+          </p>
+          <div class="tag-row">
+            <span class="tag">Python</span>
+            <span class="tag">ANOVA</span>
+            <span class="tag">PCA / KMeans</span>
+            <span class="tag">Random Forest</span>
+            <span class="tag">Leave-One-Out CV</span>
+            <span class="tag">Permutation Testing</span>
+            <span class="tag">NetworkX</span>
+            <span class="tag">mplsoccer</span>
+            <span class="tag">StatsBomb Open Data</span>
+          </div>
+          <div style="margin-top:1rem;">
+            <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--text-dim); margin-bottom:0.5rem; transition: color 0.3s ease;">Key Design Decisions</div>
+            <ul class="exp-bullets">
+              <li>Random Forest era classifier hits 48.6% accuracy (LOO-CV) vs. 33.3% chance, confirmed non-random via a 200-permutation test (p = 0.005) rather than trusting a single cross-val score on a 35-row dataset</li>
+              <li>Top-4 team comparisons (shot maps, rolling xG, tactical radar, passing networks) are driven by a points table computed directly from match results, not hardcoded team names</li>
+              <li>Passing-network node positions are averaged across both passing AND receiving touches, so players who mostly receive (not just distribute) are still positioned correctly in the graph</li>
+              <li>Network centrality features (betweenness, centralization, density, clustering) are merged onto the tactical feature table and re-run through the same ANOVA pipeline, treating structural ball-distribution as its own testable hypothesis rather than an afterthought visual</li>
+            </ul>
+          </div>
+          <div style="display:flex; gap:1rem; margin-top:1rem;">
+            <a href="https://github.com/shinepark/WSL_ML" class="project-link" target="_blank">View Repository</a>
+          </div>
+        </div>
+        <div>
+          <div class="project-images">
+            <div class="img-grid-2">
+              <img src="era_comparison_boxplots.png" alt="Boxplots of top ANOVA-significant WSL tactical features by era, with p-values" />
+              <img src="feature_importance.png" alt="Random Forest feature importance for predicting WSL era from tactical stats" />
+            </div>
+            <div class="img-grid-2">
+              <img src="pca_clusters.png" alt="PCA projection of WSL team-seasons colored by era and shaped by KMeans cluster" />
+              <img src="top4_pass_networks.png" alt="Passing network diagrams for the WSL's top 4 teams' highest-volume 2023/24 match each" />
+            </div>
+            <div class="img-grid-2">
+              <img src="top4_radar.png" alt="Radar chart comparing top 4 WSL teams' tactical profiles against the league average" />
+              <img src="top4_xg_trend.png" alt="Rolling 5-match xG trendline for the WSL's top 4 teams across the 2023/24 season" />
+            </div>
+          </div>
+          <div style="font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; color:var(--text-dim); margin-top:0.75rem; text-align:center; text-transform:uppercase; transition: color 0.3s ease;">Era ANOVA · Cluster Structure · Feature Importance · Top-4 Passing Networks · Radar · xG Form</div>
         </div>
       </div>
 
