@@ -1014,13 +1014,12 @@
           <div class="project-title">WSL Tactical Evolution — Statistical Testing, Clustering, and Passing-Network Analysis on StatsBomb Open Data</div>
           <p class="project-desc">
             An end-to-end analytics pipeline testing whether the FA Women's Super League actually played differently
-            across three eras — pre-COVID (2018/19), behind-closed-doors COVID football (2020/21), and the
-            post-Euro-2022 investment boom (2023/24) — using ~1.3M StatsBomb open-data events across 370 matches.
+            across three eras: pre-COVID (2018/19), behind-closed-doors COVID football (2020/21), and the
+            post-Euro-2022 investment boom (2023/24), using ~1.3M StatsBomb open-data events across 370 matches.
             Rather than eyeballing averages, the pipeline runs one-way ANOVA per tactical feature to find what
             actually differs significantly, PCA + KMeans clustering (blind to era labels) to check whether team-seasons
             naturally separate by era, and a Random Forest era classifier validated with Leave-One-Out cross-validation
-            and a 200-permutation significance test — appropriate rigor for an n=35 dataset, rather than reporting a
-            cross-val score and calling it done. The finding: the post-2022 WSL isn't scoring or dominating possession
+            and a 200-permutation significance test. The finding: the post-2022 WSL isn't scoring or dominating possession
             more, it's pressing 23% harder and playing 2.4m shorter, 8-points-more-accurate passes — a structural shift
             in style, not just quality. A separate graph-theory layer builds actual passing networks per match with
             NetworkX (nodes = players by average touch location, edges = completed passes) and computes betweenness
